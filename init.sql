@@ -10,8 +10,8 @@ CREATE TABLE IF NOT EXISTS ctec_fire_alarms (
 );
 
 delete from ctec_fire_alarms;
-insert into ctec_fire_alarms (occurrences, msg, sensor) values ('2018-06-13 05:31:38', '1', 'Fire09');
-insert into ctec_fire_alarms (occurrences, msg, sensor) values ('2018-06-13 05:33:38', '0', 'Fire09');
+insert into ctec_fire_alarms (occurrences, msg, sensor) values ('2018-07-25 05:31:38', '1', 'Fire09');
+insert into ctec_fire_alarms (occurrences, msg, sensor) values ('2018-07-25 05:33:38', '0', 'Fire09');
 
 
 insert into ctec_fire_alarms (occurrences, msg, sensor) values ('2018-06-13 05:31:38', '1', 'Fire10');

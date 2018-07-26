@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import logging
 import sys
+import os
 from flask import Flask, jsonify
 from logging.handlers import RotatingFileHandler
 from flask_cors import CORS
@@ -25,6 +26,15 @@ _DB = SQLAlchemy(app)
 def index():
     return jsonify(msg='Hello, CTEC!'), 200
 
+@app.route('/path')
+def path():
+    msg_array = []
+    with open('patrol.txt') as fp:
+       for line in fp:
+           if len(line.strip()) > 2: msg_array.append(line.strip()) 
+    app.logger.debug(msg_array)
+    msg_short = '#'.join(msg_array) if msg_array > 0 else ""
+    return msg_short, 200
 
 @app.route('/fire', methods=['GET'])
 def fire():
