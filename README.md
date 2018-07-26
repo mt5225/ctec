@@ -1,2 +1,2 @@
 - pip install flask_sqlalchemy
-- pip install MySQL-python
+- pip install pymysql
