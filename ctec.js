@@ -255,3 +255,40 @@ gui.createButton("Patrol", Rect(40, 300, 60, 30), function () {
 	});
 
 });
+
+var patrolLine = null;
+
+gui.createToggle(false, "Path", Rect(40, 340, 60, 30), function (toggle) {
+	if (toggle) {
+		_patrol_index = 0;
+		util.download({
+			"url": API_BASE + "path",
+			"type": "text",
+			"success": function (rs) {
+				if (string.length(rs) > 3) {
+					rs = string.trim(rs);
+					patrolPath = string.split(rs, "#");
+					var camPoints = Vector3List();
+					for (var i = 0; i < array.count(patrolPath); i++) {
+						var camObj = object.find(patrolPath[i]);
+						if (camObj != null) {
+							camPoints.Add(Vector3(camObj.pos.x, camObj.pos.y + 0.1, camObj.pos.z));
+						}
+					}
+					if (patrolLine != null) {
+						patrolLine.destroy();
+					} else {
+						patrolLine = object.createArrowLine(camPoints);
+					}
+				}
+			},
+			"error": function (t) {
+				print(t);
+			}
+		});
+	} else {
+		if (patrolLine != null)
+			patrolLine.destroy();
+	}
+
+});
