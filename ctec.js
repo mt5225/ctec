@@ -175,6 +175,7 @@ function update_fire_alarm_table() {
 }
 
 function remove_all_fire_alarm() {
+	_is_fire = false;
 	foreach(var item in vpairs(table.keys(T_Fire_List))) {
 		if (T_Fire_List[item] != null) {
 			T_Fire_List[item].destroy();
@@ -278,7 +279,10 @@ gui.createToggle(false, "Path", Rect(40, 340, 60, 30), function (toggle) {
 					if (patrolLine != null) {
 						patrolLine.destroy();
 					} else {
-						patrolLine = object.createArrowLine(camPoints);
+						patrolLine = object.createArrowLine(camPoints, {
+							"color": Color.blue,
+							"arrowColor": Color.blue
+						});
 					}
 				}
 			},
