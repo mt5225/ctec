@@ -149,6 +149,7 @@ function show_fire(sensorObj) {
 
 function remove_recovery_fire_alarm(item) {
 	if (table.containskey(T_Fire_List, item)) {
+		_is_fire = false;
 		if (T_Fire_List[item] != null) {
 			T_Fire_List[item].destroy();
 		}
