@@ -8,6 +8,9 @@ var T_Live_Fire_Alarm = {};
 var T_Fire_List = {};
 var objSign = gui.createLabel("<color=red>IDLE</color>", Rect(5, 38, 120, 30));
 var patrolPath = [];
+var PATROL_STAY_TIME = 10000;
+var PATROL_TOTAL_TIME = 100000;
+var PATROL_TOTAL_COUNT = Math.Floor(PATROL_TOTAL_TIME / PATROL_STAY_TIME) - 1;
 
 function open_camera_live_feed(camObj) {
 	if (camObj != null) {
@@ -33,26 +36,33 @@ var _patrol_index = 0;
 var _patrol_timer = null;
 var _on_patrol = false;
 var _patrol_sign = null;
+var _patrol_count = 0;
 function patrol() {
 	_on_patrol = !_on_patrol;
 	if (_on_patrol) {
 		util.clearInterval(_patrol_timer);
 		_patrol_sign = gui.createLabel("<color=green>PATROL</color>", Rect(5, 60, 120, 30));
 		_patrol_timer = util.setInterval(function () {
-				if (_patrol_index > array.count(patrolPath) - 1)
-					_patrol_index = 0;
-				var camObj = object.find(patrolPath[_patrol_index]);
-				if (camObj != null) {
-					var pos = camObj.pos;
-					camera.flyTo({
-						"eye": Vector3(pos.x + 5, pos.y + 5, pos.z + 5),
-						"target": pos,
-						"time": 2.0
-					})
-					open_camera_live_feed(camObj);
+				if (_patrol_count >= PATROL_TOTAL_COUNT) {
+					stop_patrol();			
+				} else {
+					if (_patrol_index > array.count(patrolPath) - 1)
+						_patrol_index = 0;
+					var camObj = object.find(patrolPath[_patrol_index]);
+					if (camObj != null) {
+						var pos = camObj.pos;
+						camera.flyTo({
+							"eye": Vector3(pos.x + 5, pos.y + 5, pos.z + 5),
+							"target": pos,
+							"time": 2.0
+						})
+						open_camera_live_feed(camObj);
+					}
+					_patrol_index++;
+					_patrol_count++;
 				}
-				_patrol_index++;
-			}, 6000)
+
+			}, PATROL_STAY_TIME)
 	} else {
 		gui.destroy(_patrol_sign);
 		util.clearInterval(_patrol_timer);
@@ -66,6 +76,7 @@ function stop_patrol() {
 	util.clearInterval(_patrol_timer);
 	_on_patrol = false;
 	_patrol_index = 0;
+	_patrol_count = 0;
 }
 
 function init() {
@@ -281,9 +292,9 @@ gui.createToggle(false, "Path", Rect(40, 340, 60, 30), function (toggle) {
 						patrolLine.destroy();
 					} else {
 						patrolLine = object.createArrowLine(camPoints, {
-							"color": Color.blue,
-							"arrowColor": Color.blue
-						});
+								"color": Color.blue,
+								"arrowColor": Color.blue
+							});
 					}
 				}
 			},
