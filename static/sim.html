@@ -7,15 +7,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <script src="js/jquery.min.js"></script>
-    <script src="js/tether.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
 </head>
 <script>
-    var BASE_URL = "http://localhost:9006/"
+    var BASE_URL = "http://localhost:9006/command/"
     $(document).ready(function () {
         $("#fire_alarm").click(function () {
             $.ajax({
-                url: BASE_URL + 'demo_fire',
+                url: BASE_URL + 'fire_alarm',
                 success: function (result) {
                     $("#result").html(result);
                 }
@@ -23,7 +22,7 @@
         });
         $("#fire_recovery").click(function () {
             $.ajax({
-                url: BASE_URL + 'demo_resume',
+                url: BASE_URL + 'fire_recovery',
                 success: function (result) {
                     $("#result").html(result);
                 }
@@ -31,7 +30,7 @@
         });
         $("#reset").click(function () {
             $.ajax({
-                url: BASE_URL + 'demo_reset',
+                url: BASE_URL + 'reset',
                 success: function (result) {
                     $("#result").html(result);
                 }
@@ -52,13 +51,14 @@
                 <button id="fire_recovery" type="button" class="btn btn-success btn-lg"> Fire Recovery</button>
             </div>
             <div class="col">
-                <button id="reset" type="button" class="btn btn-danger btn-lg">Reset</button>
+			            <div class="col">
+                <button id="reset" type="button" class="btn btn-success btn-lg"> Reset</button>
             </div>
             </div>
         </div>
         <br>
         <div class="row">
-            &nbsp; &nbsp; <div id="result" class="col" />
+            <div id="result" class="col" />
         </div>
     </div>
 
